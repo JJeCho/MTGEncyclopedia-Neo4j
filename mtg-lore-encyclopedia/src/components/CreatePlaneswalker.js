@@ -1,5 +1,7 @@
+import { gql, useMutation } from '@apollo/client';
+import { Button, Container, Paper, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import styles from '../styles/Global.module.css';
 
 const ADD_PLANESWALKER = gql`
   mutation AddPlaneswalker($name: String!, $abilities: [String]!) {
@@ -11,7 +13,7 @@ const ADD_PLANESWALKER = gql`
   }
 `;
 
-function AddPlaneswalker() {
+const CreatePlaneswalker = () => {
   const [name, setName] = useState('');
   const [abilities, setAbilities] = useState('');
   const [addPlaneswalker, { data }] = useMutation(ADD_PLANESWALKER);
@@ -20,34 +22,32 @@ function AddPlaneswalker() {
     e.preventDefault();
     const abilitiesArray = abilities.split(',').map(ability => ability.trim());
     addPlaneswalker({ variables: { name, abilities: abilitiesArray } });
-    setName('');
-    setAbilities('');
   };
 
   return (
-    <div>
-      <h2>Add a New Planeswalker</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
+    <Container className={styles.container}>
+      <Paper className={styles.card}>
+        <Typography variant="h5" gutterBottom>Create New Planeswalker</Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            fullWidth
+            margin="normal"
           />
-        </div>
-        <div>
-          <label>Abilities (comma separated)</label>
-          <input
-            type="text"
+          <TextField
+            label="Abilities (comma separated)"
             value={abilities}
             onChange={(e) => setAbilities(e.target.value)}
+            fullWidth
+            margin="normal"
           />
-        </div>
-        <button type="submit">Add Planeswalker</button>
-      </form>
-    </div>
+          <Button type="submit" variant="contained" color="primary">Create</Button>
+        </form>
+      </Paper>
+    </Container>
   );
-}
+};
 
-export default AddPlaneswalker;
+export default CreatePlaneswalker;

@@ -1,23 +1,28 @@
+import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import styles from '../styles/Global.module.css';
 
-function Search({ onSearch }) {
+const Search = ({ onSearch }) => {
   const [query, setQuery] = useState('');
 
-  const handleSearch = (event) => {
-    setQuery(event.target.value);
-    onSearch(event.target.value);
+  const handleSearch = () => {
+    onSearch(query);
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search..."
+    <div className={styles.searchContainer}>
+      <TextField
+        label="Search"
         value={query}
-        onChange={handleSearch}
+        onChange={(e) => setQuery(e.target.value)}
+        fullWidth
+        margin="normal"
       />
+      <Button variant="contained" color="primary" onClick={handleSearch}>
+        Search
+      </Button>
     </div>
   );
-}
+};
 
 export default Search;

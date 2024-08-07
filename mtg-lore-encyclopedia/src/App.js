@@ -1,13 +1,15 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import React from 'react';
-import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
-import CharacterList from './components/CharacterList';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import CharacterDetail from './components/CharacterDetail';
-import PlanesWalkerDetail from './components/PlanesWalkerDetail'
-import PlanesWalkerList from './components/PlanesWalkerList'
+import CharacterList from './components/CharacterList';
+import CreateCharacter from './components/CreateCharacter';
+import CreatePlaneswalker from './components/CreatePlaneswalker';
 import GraphVisualization from './components/GraphVisualization';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navigation from './components/Navigation';
 import Home from './components/Home';
+import Navigation from './components/Navigation';
+import PlanesWalkerDetail from './components/PlanesWalkerDetail';
+import PlanesWalkerList from './components/PlanesWalkerList';
 
 const client = new ApolloClient({
   uri: `http://localhost:4000/graphql`,
@@ -27,6 +29,8 @@ function App() {
             <Route path="/planeswalkers" element={<PlanesWalkerList />} />
             <Route path="/planeswalker/:id" element={<PlanesWalkerDetail />} />
             <Route path="/graph" element={<GraphVisualization />} />
+            <Route path="/add-character" element={<CreateCharacter />} />
+            <Route path="/add-planeswalker" element={<CreatePlaneswalker />} />
           </Routes>
         </div>
       </Router>
