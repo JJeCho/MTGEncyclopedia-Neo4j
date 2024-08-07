@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
+import React, { useEffect, useRef, useState } from 'react';
 import ForceGraph3D from 'react-force-graph-3d';
+import styles from '../styles/Global.module.css';
 
 const GET_GRAPH_DATA = gql`
   query GetGraphData {
@@ -19,6 +20,7 @@ const GET_GRAPH_DATA = gql`
 const GraphVisualization = () => {
   const { loading, error, data } = useQuery(GET_GRAPH_DATA);
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (data) {
@@ -41,12 +43,16 @@ const GraphVisualization = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <ForceGraph3D
-      graphData={graphData}
-      nodeAutoColorBy="group"
-      nodeLabel="name"
-      linkLabel="type"
-    />
+    <div ref={containerRef} className={styles.graphContainer}>
+      <ForceGraph3D
+        graphData={graphData}
+        nodeAutoColorBy="group"
+        nodeLabel="name"
+        linkLabel="type"
+        width={containerRef.current ? containerRef.current.clientWidth : window.innerWidth}
+        height={containerRef.current ? containerRef.current.clientHeight : window.innerHeight}
+      />
+    </div>
   );
 };
 

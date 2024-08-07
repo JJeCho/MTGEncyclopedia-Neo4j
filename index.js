@@ -1,6 +1,7 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schema');
+const { typeDefs} = require('./schema');
+const { resolvers } = require('./resolvers');
 const neo4j = require('neo4j-driver');
 const dotenv = require('dotenv');
 dotenv.config();
